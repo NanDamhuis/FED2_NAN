@@ -8,7 +8,8 @@ body {
 }
 
 header img {
-	width:5%;
+	width:100px;
+	float:left;
 }
 
 article > section {
@@ -21,6 +22,10 @@ article > section {
 
 	}
 
+nav{
+	margin-top: 10%;
+	margin-bottom: 5%;
+}
 nav ul li a{
 	text-decoration: none;
 	color:white;
