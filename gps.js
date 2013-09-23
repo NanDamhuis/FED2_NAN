@@ -1,4 +1,10 @@
 // Variable declaration
+
+var GEOBAAS = GEOBAAS || {};
+
+(function() {
+
+
 var SANDBOX = "SANDBOX";
 var LINEAIR = "LINEAIR";
 var GPS_AVAILABLE = 'GPS_AVAILABLE';
@@ -8,20 +14,20 @@ var REFRESH_RATE = 1000;
 var currentPosition = currentPositionMarker = customDebugging = debugId = map = interval =intervalCounter = updateMap = false;
 var locatieRij = markerRij = [];
 
-
-var GEOBAAS = GEOBAAS || {};
-
-(function() {
 //Het controllerobject
 
-GEOBAAS.controller = {
-}
+GEOBAAS.application = {
+    init: function () {
+        GEOBAAS.gps.init();
+    }
+};
+
 // gpsobject
 GEOBAAS.gps = {  
 	init: function () {
 
 	var self = this;
-	debug_message("Controleer of GPS beschikbaar is...");
+	GEO.debug.message("Controleer of GPS beschikbaar is...");
 
     ET.addListener(GPS_AVAILABLE, self.startInterval);
     ET.addListener(GPS_UNAVAILABLE, function(){debug_message('GPS is niet beschikbaar.')});
@@ -164,5 +170,9 @@ GEOBAAS.debug = {
     customDebugging = true;
 	}
 };
+
+GEOBAAS.gps.init();
+//kickstart
+
 
 })();
