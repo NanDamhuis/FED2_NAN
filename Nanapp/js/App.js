@@ -74,7 +74,7 @@ var SCOREAPP = SCOREAPP || {};
             var route = window.location.hash.slice(2),
                 sections = qwery('section[data-route]'),
                 section = qwery('[data-route=' + route + ']')[0];
-
+                
             // Show active section, hide all other
             if (section) {
                 for (var i=0; i < sections.length; i++){
@@ -96,15 +96,15 @@ var SCOREAPP = SCOREAPP || {};
 
     SCOREAPP.page = {
         page1: function() {
-            Transparency.render(qwery('[data-route=page1]')[0], SCOREAPP.game);
+            Transparency.render(qwery('[data-route=game]')[0], SCOREAPP.game);
             SCOREAPP.router.change();
         },
         page2: function() {
-            Transparency.render(qwery('[data-route=page2]')[0], SCOREAPP.schedule);
+            Transparency.render(qwery('[data-route=schedule]')[0], SCOREAPP.schedule);
             SCOREAPP.router.change();
         },
         page3: function() {
-            Transparency.render(qwery('[data-route=page3]')[0], SCOREAPP.ranking);
+            Transparency.render(qwery('[data-route=ranking]')[0], SCOREAPP.ranking);
             SCOREAPP.router.change();
         }
     }

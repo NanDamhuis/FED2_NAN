@@ -10,3 +10,22 @@ body {
 header img {
 	width:5%;
 }
+
+article > section {
+		display:none;
+	}
+	article > section.active {
+		display:block;
+		background-color: rgba(0,255,0, 0.5);
+		color:red;
+
+	}
+
+nav ul li a{
+	text-decoration: none;
+	color:white;
+}
+
+nav ul{
+	list-style-type: none;
+}
