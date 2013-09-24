@@ -10,7 +10,6 @@
 
 
 	<header>
-		<img src="image/logo.png" alt="Score webapp" data-source="">
 		<h1>Skeleton Scorewebapp</h1>
 		<nav>
 			<ul>
@@ -26,21 +25,92 @@
 			<h1 data-bind="title"></h1>
 			<p data-bind="description"></p>
 			 <section data-bind="items">
-			    <section>
-			      <h1 data-bind="title"></h1>
-			      <p data-bind="description"></p>
-			    </section>
+			    <table>
+			      
+			      	<thead>
+			      	<tr>
+			      	<td>score</td>
+			      	<td>team 1</td>
+			      	<td>team 1 score</td>
+			      	<td>team 2</td>
+			      	<td>team 2 score</td>
+			      	</tr>
+
+			      	</thead>
+
+			      	<tr>
+			      	<td data-bind="score"></td>
+			      	<td data-bind="team1"></td>
+			      	<td data-bind="team1Score"></td>
+			      	<td data-bind="team2"></td>
+			      	<td data-bind="team2Score"></td>
+			      	</tr>
+			      	
+			    </table>
 			  </section>
 		</section>
 
 		<section data-route="schedule">
 			<h1 data-bind="title"></h1>
 			<p data-bind="description"></p>
+			<section data-bind="items">
+			    <table>
+			      
+			      <thead>
+			      	<tr>
+			      	<td>Date</td>
+			      	<td>team 1</td>
+			      	<td>team 1 score</td>
+			      	<td>team 2</td>
+			      	<td>team 2 score</td>
+			      	</tr>
+
+			      	</thead>
+			      	
+			      	<tr>
+			      	<td data-bind="date"></td>
+			      	<td data-bind="team1"></td>
+			      	<td data-bind="team1Score"></td>
+			      	<td data-bind="team2"></td>
+			      	<td data-bind="team2Score"></td>
+			  		</tr>
+			      	
+			    </table>
+			  </section>
+			 
 		</section>
 
 		<section data-route="ranking">
 			<h1 data-bind="title"></h1>
 			<p data-bind="description"></p>
+			<section data-bind="items">
+			    <table>
+
+			      <thead>
+			      	<tr>
+			      	<td>Team</td>
+			      	<td>Win</td>
+			      	<td>Lost</td>
+			      	<td>Sw</td>
+			      	<td>Sl</td>
+			      	<td>Pw</td>
+			      	<td>Pl</td>
+			      	</tr>
+
+			      	</thead>
+			      	
+			      	<tr>
+			      	<td data-bind="team"></td>
+			      	<td data-bind="Win"></td>
+			      	<td data-bind="Lost"></td>
+			      	<td data-bind="Sw"></td>
+			      	<td data-bind="Sl"></td>
+			      	<td data-bind="Pw"></td>
+			      	<td data-bind="Pl"></td>
+			      	</tr>
+			      	
+			    </table>
+			  </section>
 		</section>
 	</article> 
 
