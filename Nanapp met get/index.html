@@ -23,29 +23,31 @@
 	
 	<article id="content" class="col">
 		<section data-route="game" class="active">
-			<h1 data-bind="title"></h1>
-			 <section data-bind="items">
+		<h1>Pool:</h1>
+			<h1 data-bind="name"></h1>
+
+			 <section data-bind="object">
 			    <table>
 			      
 			      	<thead>
 			      	<tr>
-			      	<td>score</td>
-			      	<td>team 1</td>
-			      	<td>team 1 score</td>
-			      	<td>team 2</td>
-			      	<td>team 2 score</td>
+			      	<td>Games played</td>
+			      	<td>losses</td>
+			      	<td>plusminus</td>
+			      	<td>points allowed</td>
+			      	<td>points scored</td>
 			      	</tr>
 
 			      	</thead>
-			      		
+			      	<tbody>	
 			      	<tr>
-			      	<td data-bind="score"></td>
-			      	<td data-bind="team1"></td>
-			      	<td data-bind="team1Score"></td>
-			      	<td data-bind="team2"></td>
-			      	<td data-bind="team2Score"></td>
+			      	<td data-bind="games_played"></td>
+			      	<td data-bind="losses"></td>
+			      	<td data-bind="plus_minus"></td>
+			      	<td data-bind="points_allowed"></td>
+			      	<td data-bind="points_scored"></td>
 			      	</tr>
-			      	
+			      	</tbody>
 			    </table>
 			  </section>
 		</section>

@@ -5,32 +5,7 @@ var SCOREAPP = SCOREAPP || {};
 // Data objecten, hier staat de content in
 
 	SCOREAPP.game = {
-		title:'Pool A - Score: Boomsquad vs. Burning Snow',
-        items: [
-    { score: "1", team1: "Boomsquad", team1Score: "1", team2: "Burning Snow", team2Score: "0"},
-    { score: "2", team1: "Boomsquad", team1Score: "2", team2: "Burning Snow", team2Score: "0"},
-    { score: "3", team1: "Boomsquad", team1Score: "2", team2: "Burning Snow", team2Score: "1"},
-    { score: "4", team1: "Boomsquad", team1Score: "2", team2: "Burning Snow", team2Score: "2"},
-    { score: "5", team1: "Boomsquad", team1Score: "3", team2: "Burning Snow", team2Score: "2"},
-    { score: "6", team1: "Boomsquad", team1Score: "4", team2: "Burning Snow", team2Score: "2"},
-    { score: "7", team1: "Boomsquad", team1Score: "5", team2: "Burning Snow", team2Score: "2"},
-    { score: "8", team1: "Boomsquad", team1Score: "5", team2: "Burning Snow", team2Score: "3"},
-    { score: "9", team1: "Boomsquad", team1Score: "6", team2: "Burning Snow", team2Score: "3"},
-    { score: "10", team1: "Boomsquad", team1Score: "7", team2: "Burning Snow", team2Score: "3"},
-    { score: "11", team1: "Boomsquad", team1Score: "7", team2: "Burning Snow", team2Score: "4"},
-    { score: "12", team1: "Boomsquad", team1Score: "8", team2: "Burning Snow", team2Score: "4"},
-    { score: "13", team1: "Boomsquad", team1Score: "8", team2: "Burning Snow", team2Score: "5"},
-    { score: "14", team1: "Boomsquad", team1Score: "8", team2: "Burning Snow", team2Score: "6"},
-    { score: "15", team1: "Boomsquad", team1Score: "9", team2: "Burning Snow", team2Score: "6"},
-    { score: "16", team1: "Boomsquad", team1Score: "9", team2: "Burning Snow", team2Score: "7"},
-    { score: "17", team1: "Boomsquad", team1Score: "10", team2: "Burning Snow", team2Score: "7"},
-    { score: "18", team1: "Boomsquad", team1Score: "11", team2: "Burning Snow", team2Score: "7"},
-    { score: "19", team1: "Boomsquad", team1Score: "12", team2: "Burning Snow", team2Score: "7"},
-    { score: "20", team1: "Boomsquad", team1Score: "13", team2: "Burning Snow", team2Score: "7"},
-    { score: "21", team1: "Boomsquad", team1Score: "14", team2: "Burning Snow", team2Score: "7"},
-    { score: "22", team1: "Boomsquad", team1Score: "14", team2: "Burning Snow", team2Score: "8"},
-    { score: "23", team1: "Boomsquad", team1Score: "15", team2: "Burning Snow", team2Score: "8"}
-    ]
+		 
 	};
 
 	SCOREAPP.schedule = {
@@ -128,7 +103,25 @@ SCOREAPP.movies = {};
 
     SCOREAPP.page = {
         page1: function() {
-            Transparency.render(qwery('[data-route=game]')[0], SCOREAPP.game);
+            promise.get('https://api.leaguevine.com/v1/pools/?order_by=%5Bid%5D&fields=%5Bstandings%5D&access_token=441ea6a1da').then(function(error, text, xhr) {
+                if (error) {
+                  console.log('Error ' + xhr.status);
+                  // Stop met de functie
+                  return;
+                }
+
+                var parsedObject = JSON.parse(text);     
+                SCOREAPP.game = parsedObject.objects[0].standings[0,1,2,3];     
+                Transparency.render(qwery('[data-route=game')[0], SCOREAPP.game);
+                // console.log('The page contains ' + text.length + ' character(s).');
+                // console.log(text);
+
+                for(var i = 0; i < parsedObject.objects.length; i++) {
+                    SCOREAPP.game = parsedObject.objects[i];
+                    console.log(parsedObject.objects[i].standings[0]);
+                }
+            });
+
             SCOREAPP.router.change();
             
         },
@@ -145,7 +138,6 @@ SCOREAPP.movies = {};
             promise.get('http://dennistel.nl/movies').then(function(error, text, xhr) {
                 if (error) {
                   console.log('Error ' + xhr.status);
-                  // Stop met de functie
                   return;
                 }
 
