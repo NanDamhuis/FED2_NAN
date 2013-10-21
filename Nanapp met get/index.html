@@ -23,37 +23,43 @@
 	
 	<article id="content" class="col">
 		<section data-route="game" class="active">
-		<h1>Pool:</h1>
+		<h1>Huidige wedstrijd Pool:</h1>
 			<h1 data-bind="name"></h1>
 
-			 <section data-bind="object">
+			 <section data-bind="tabel">
 			    <table>
 			      
 			      	<thead>
-			      	<tr>
-			      	<td>Games played</td>
-			      	<td>losses</td>
-			      	<td>plusminus</td>
-			      	<td>points allowed</td>
-			      	<td>points scored</td>
-			      	</tr>
-
+				      	<tr>
+					      	<td>Team</td>
+					      	<td>P</td>
+					      	<td>W</td>
+					      	<td>L</td>
+					      	<td>+-</td>
+					      	<td>PA</td>
+					      	<td>PS</td>
+				      	</tr>
 			      	</thead>
-			      	<tbody>	
-			      	<tr>
-			      	<td data-bind="games_played"></td>
-			      	<td data-bind="losses"></td>
-			      	<td data-bind="plus_minus"></td>
-			      	<td data-bind="points_allowed"></td>
-			      	<td data-bind="points_scored"></td>
-			      	</tr>
+			      	<tbody data-bind="standings">	
+				      	<tr>
+					      	<td data-bind="team">
+					      		<span data-bind="name"></span>
+					      	</td>
+					      	<td data-bind="games_played"></td>
+					      	<td data-bind="wins"></td>
+					      	<td data-bind="losses"></td>
+					      	<td data-bind="plus_minus"></td>
+					      	<td data-bind="points_allowed"></td>
+					      	<td data-bind="points_scored"></td>
+				      	</tr>
 			      	</tbody>
 			    </table>
 			  </section>
 		</section>
 
 		<section data-route="schedule">
-			<h1 data-bind="title"></h1>
+			<h1>Speelschema Pool:</h1>
+			<h1 data-bind="name"></h1>
 			<section data-bind="items">
 			    <table>
 			      
@@ -81,34 +87,36 @@
 			 
 		</section>
 
-		<section data-route="ranking">
-			<h1 data-bind="title"></h1>
-			<section data-bind="items">
+		<article id="content" class="col">
+		<section data-route="ranking" class="active">
+		<h1>Pool:</h1>
+			<h1 data-bind="name"></h1>
+
+			 <section data-bind="tabel">
 			    <table>
-
-			      <thead>
-			      	<tr>
-			      	<td>Team</td>
-			      	<td>Win</td>
-			      	<td>Lost</td>
-			      	<td>Sw</td>
-			      	<td>Sl</td>
-			      	<td>Pw</td>
-			      	<td>Pl</td>
-			      	</tr>
-
+			      
+			      	<thead>
+				      	<tr>
+					      	<td>Team</td>
+					      	<td>Games played</td>
+					      	<td>losses</td>
+					      	<td>plusminus</td>
+					      	<td>points allowed</td>
+					      	<td>points scored</td>
+				      	</tr>
 			      	</thead>
-			      	
-			      	<tr>
-			      	<td data-bind="team"></td>
-			      	<td data-bind="Win"></td>
-			      	<td data-bind="Lost"></td>
-			      	<td data-bind="Sw"></td>
-			      	<td data-bind="Sl"></td>
-			      	<td data-bind="Pw"></td>
-			      	<td data-bind="Pl"></td>
-			      	</tr>
-			      	
+			      	<tbody data-bind="standings">	
+				      	<tr>
+					      	<td data-bind="team">
+					      		<span data-bind="name"></span>
+					      	</td>
+					      	<td data-bind="games_played"></td>
+					      	<td data-bind="losses"></td>
+					      	<td data-bind="plus_minus"></td>
+					      	<td data-bind="points_allowed"></td>
+					      	<td data-bind="points_scored"></td>
+				      	</tr>
+			      	</tbody>
 			    </table>
 			  </section>
 		</section>
