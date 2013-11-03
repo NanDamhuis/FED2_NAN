@@ -4,18 +4,17 @@ var SCOREAPP = SCOREAPP || {};
 "use strict";
 // Data objecten, hier staat de content in
 
-	SCOREAPP.game = {
-	};
 
-   
-	SCOREAPP.schedule = {
-	};
+	SCOREAPP.schedule = {};
 
-	SCOREAPP.ranking = {
-	};
+	SCOREAPP.ranking = {};
 
-// RENAME!
-SCOREAPP.spinner = {
+  SCOREAPP.game = {};
+
+
+//Hier heb ik alle utilities in staan
+
+SCOREAPP.extraDingen = {
         spinner: {
             spinnerObject: document.getElementById("spinner"), 
             show: function () {
@@ -24,17 +23,33 @@ SCOREAPP.spinner = {
             hide: function () {
                 this.spinnerObject.className ="stopspin";
             }
-        }
+        },
+
+      gesture:function(){
+        $$("#refresh").doubleTap(function () {
+
+        console.log("WAZZUP");
+
+        SCOREAPP.extraDingen.reloadpage();
+
+
+        });
+      },
+
+      reloadpage:function(){
+
+        location.reload()
+      }
     };
-//een leeg object waar de data van dennistel.nl in terecht komt
-SCOREAPP.movies = {};
-// controller object, op dit moment niet meer dan een doorgeefluik
+
+// controller object, vanuit hier initiate ik bepaalde functies en methods
 
 	SCOREAPP.controller = {
 
 		init: function(){
 			//start de router
 			SCOREAPP.router.init();
+      SCOREAPP.extraDingen.gesture();
 		}
 };
 
@@ -44,29 +59,28 @@ SCOREAPP.movies = {};
 		init: function(){
 			routie({
 
-				'/game': function() {
-                    console.log("testgame");
-					SCOREAPP.page.page1();
+				'/game/': function() {
+                    console.log("Losse wedstrijd");
+					SCOREAPP.page.gamePagina();
+
 				},
 				'/schedule': function(){
-                    console.log("testschedule");
+                    console.log("Schedule");
 					  SCOREAPP.page.page2();
 				},
 				'/ranking': function(){
-                    console.log("testranking");
+                    console.log("Ranking");
 					SCOREAPP.page.page3();
 				},
-                '/movies': function() {
-                    SCOREAPP.page.movies();
-                },
+                
 				'*': function(){
-                    console.log("testgame");
-					SCOREAPP.page.page1();
+                    console.log("Schedule");
+					SCOREAPP.page.page2();
 				}
 
 			});
 		},
-//deze functie geeft de class active mee aan de content
+//deze functie geeft de class active mee aan de content zodat het zichtbaar wordt
 
         change: function () {
             var route = window.location.hash.slice(2),
@@ -78,44 +92,93 @@ SCOREAPP.movies = {};
                 for (var i=0; i < sections.length; i++){
                     sections[i].classList.remove('active');
                 }
+
                 section.classList.add('active');
+
             }
 
             // Default route
             if (!route) {
                 sections[0].classList.add('active');
+
             }
 
         }
 
 	};
 
-//Het paginaobject
+//In dit object zet ik alle informatie die nodig is om de score te posten
+SCOREAPP.post ={
+
+postMethod: function(id, team1, team2, ended) {
+             var binnenhalen = new XMLHttpRequest;
+             binnenhalen.open(POST,"https://api.leaguevine.com/v1/game_scores/",true);
+        
+
+             var dataObject = {
+
+                    "game_id": id,
+                    "team_1_score": team1,
+                    "team_2_score": team2,
+                    "final": ended
+
+            
+
+
+             };
+
+            binnenhalen.setRequestHeader("Content-Type","application/json");
+            binnenhalen.setRequestHeader("Accept","application/json");
+            binnenhalen.setRequestHeader("Authorization","bearer 74884efad3");
+
+
+            binnenhalen.send(JSON.stringify(dataObject));
+   
+            
+        }
+
+
+
+
+};
+//De paginaobjecten
 
     SCOREAPP.page = {
-        page1: function() {
-              
-            promise.get('https://api.leaguevine.com/v1/games/?season_id=20167&tournament_id=19389').then(function(error, text, xhr) {
+
+        
+
+        gamePagina: function(){
+            console.log("Deze match");
+             SCOREAPP.extraDingen.spinner.show();
+             promise.get('https://api.leaguevine.com/v1/game_scores/?tournament_id=19389&access_token=c31a4263bb').then(function(error, text, xhr) {
                 if (error) {
                   console.log('Error ' + xhr.status);
                   // Stop met de functie
                   return;
                 }
 
-
                 var parsedObject = JSON.parse(text);
-
-                SCOREAPP.game = parsedObject;
+                console.log(parsedObject);
                 
-                Transparency.render(qwery('[data-route=game')[0],parsedObject);
+                SCOREAPP.schedule = parsedObject.objects[0];
+                
+                SCOREAPP.extraDingen.spinner.hide();
+
+                Transparency.render(qwery('[data-route=game')[0],parsedObject.objects[0]);
+
+
+
 
             });
 
             SCOREAPP.router.change();
-            
+
+
         },
+       
+
         page2: function() {
-              SCOREAPP.spinner.spinner.show();
+              SCOREAPP.extraDingen.spinner.show();
              promise.get('https://api.leaguevine.com/v1/games/?season_id=20167&tournament_id=19389').then(function(error, text, xhr) {
                 if (error) {
                   console.log('Error ' + xhr.status);
@@ -125,19 +188,21 @@ SCOREAPP.movies = {};
 
 
                 var parsedObject = JSON.parse(text);
-                console.log(parsedObject.objects[0].team_1);
+                
                 
                 SCOREAPP.schedule = parsedObject;
                 
-                SCOREAPP.spinner.spinner.hide();
+                SCOREAPP.extraDingen.spinner.hide();
+
                 Transparency.render(qwery('[data-route=schedule')[0],parsedObject);
+                 Fader.fadeInWithId("content", 3);
 
             });
 
             SCOREAPP.router.change();
         },
         page3: function() {
-            SCOREAPP.spinner.spinner.show();
+            SCOREAPP.extraDingen.spinner.show();
             promise.get('https://api.leaguevine.com/v1/pools/?tournament_id=19389&access_token=8ec88ebf01').then(function(error, text, xhr) {
                 if (error) {
                   console.log('Error ' + xhr.status);
@@ -148,14 +213,15 @@ SCOREAPP.movies = {};
                 var parsedObject = JSON.parse(text);
 
                 SCOREAPP.ranking = parsedObject.objects;
-                
+                SCOREAPP.extraDingen.spinner.hide();
                 Transparency.render(qwery('[data-route=ranking')[0],parsedObject.objects);
 
             });
-            SCOREAPP.spinner.spinner.hide();
+
             SCOREAPP.router.change();
         }
-    }
+    };
+
 // Voer deze functie uit als de DOM geladen is
 	domready(function() {
 	//Kickstart de applicatie

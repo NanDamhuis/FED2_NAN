@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amsterdam Ultimate Autumn</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<header>
+  <h1>Tournament: Amsterdam Ultimate Autumn</h1>
+  <nav>
+    <ul>
+      <!-- 				<li><a href="#/game">Game Page</a></li> -->
+      <li><a href="#/schedule">Schedule Page</a></li>
+      <li><a href="#/ranking">Ranking Page</a></li>
+      <li id="refresh">Double tap to refresh</li>
+    </ul>
+  </nav>
+</header>
+<div id ="spinner" class="spin"></div>
+<article id="content" class="col">
+  <section data-route="schedule">
+    <h1>Speelschema</h1>
+    <h1 data-bind="name"></h1>
+    <section data-bind="tabel">
+      <table>
+        <thead>
+          <tr>
+            <td>Pool</td>
+            <td>Date & Time</td>
+            <td>team 1</td>
+            <td>Score team 2</td>
+            <td>Score team 2</td>
+            <td>team 2</td>
+          </tr>
+        </thead>
+        <tbody data-bind="objects">
+          <tr>
+            <td data-bind="pool"><span data-bind="name"></span></td>
+            <td data-bind="start_time"></td>
+            <td data-bind="team_1"><span data-bind="name"></span></td>
+            <td data-bind="team_1_score"></td>
+            <td data-bind="team_2_score"></td>
+            <td data-bind="team_2"><span data-bind="name"></span></td>
+            <td id="change"><a href="#/game">Adjust the score</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </section>
+</article>
+</section>
+<article id="content" class="col">
+  <section data-route="ranking" class="active">
+    <h1>Pool:</h1>
+    <h1 data-bind="name"></h1>
+    <section data-bind="tabel">
+      <table>
+        <thead>
+          <tr>
+            <td>Team</td>
+            <td>Games played</td>
+            <td>losses</td>
+            <td>plusminus</td>
+            <td>points allowed</td>
+            <td>points scored</td>
+          </tr>
+        </thead>
+        <tbody data-bind="standings">
+          <tr>
+            <td data-bind="team"><span data-bind="name"></span></td>
+            <td data-bind="games_played"></td>
+            <td data-bind="losses"></td>
+            <td data-bind="plus_minus"></td>
+            <td data-bind="points_allowed"></td>
+            <td data-bind="points_scored"></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </section>
+</article>
+<article id="content" class="col">
+  <section data-route="game" id="liveScore" class="active">
+    <h1 data-bind="id">Adjust the score</h1>
+    <section>
+      <label data-bind="team_1">Team 1</label>
+      <input type="number" data-bind="team_1_score" name="team1" id="team1" min="1" max="100">
+      <label> versus </label>
+      <input type="number" data-bind="team_2_score" name="team2" id="team2" min"1"="" max="100">
+      <label data-bind="team_2">Team 2</label>
+      <p>Has the game ended? </p>
+      <input type="radio" name="ended" value="yes">
+      <label> Yes </label>
+      <input type="radio" checked="checked" name="ended" value="no">
+      <label> No </label>
+      <p><a href="#/schedule">Post Score</a></p>
+    </section>
+  </section>
+</article>
+
+<!-- Libs --> 
+<script src="js/microlibs/promise.min.js" type="text/javascript"></script> 
+<script src="js/microlibs/ready.min.js" type="text/javascript"></script> 
+<script src="js/microlibs/routie.min.js"></script> 
+<script src="js/microlibs/qwery.min.js" type="text/javascript"></script> 
+<script src="js/microlibs/transparancy.min.js" type="text/javascript"></script> 
+<script src="js/microlibs/spin.min.js" type="text/javascript"></script> 
+<script src="js/microlibs/quo.js" type="text/javascript"></script> 
+<script src="js/microlibs/fader.min.js" type="text/javascript"></script> 
+
+<!-- Application --> 
+<script src="js/app.js"></script>
+</body>
+</html>
