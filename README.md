@@ -16,31 +16,22 @@ Anonymous funciton :
 
 Dataobjecten :
 
-	SCOREAPP.schedule = {};
+SCOREAPP.schedule = {};
 
-	SCOREAPP.ranking = {};
+SCOREAPP.ranking = {};
 
-  SCOREAPP.game = {};
+SCOREAPP.game = {};
 
 Utilities :
 
 SCOREAPP.extraStuff = {
-        spinner: {
-        
-        },
-
-      gesture:function(){
-        });
-      },
-
-      reloadpage:function(){
-      }
-    };
+spinner: {}
+gesture:function(){});},
+reloadpage:function(){}};
 
 Controller :
 
-	SCOREAPP.controller = {}
-};
+SCOREAPP.controller = {}};
 
 Router :
 
@@ -54,9 +45,7 @@ change: function () {};
 
 
 Posten :
-SCOREAPP.post ={
-            
-        }
+SCOREAPP.post ={}
 
 };
 
@@ -66,13 +55,10 @@ SCOREAPP.page = {
 gamePagina: function(id){},
        
 page2: function() {},
-page3: function() {}
-    };
+page3: function() {}};
 
 DOMREADY
-	domready(function() {
-
-	});
+domready(function() {});
 
 
 })();
