@@ -10,7 +10,7 @@
   <h1>Tournament: Amsterdam Ultimate Autumn</h1>
   <nav>
     <ul>
-      <!-- 				<li><a href="#/game">Game Page</a></li> -->
+    
       <li><a href="#/schedule">Schedule Page</a></li>
       <li><a href="#/ranking">Ranking Page</a></li>
       <li id="refresh">Double tap to refresh</li>
@@ -42,7 +42,7 @@
             <td data-bind="team_1_score"></td>
             <td data-bind="team_2_score"></td>
             <td data-bind="team_2"><span data-bind="name"></span></td>
-            <td id="change"><a href="#/game">Adjust the score</a></td>
+            <td id="change"><a id="adjust">Adjust the score</a></td>
           </tr>
         </tbody>
       </table>
@@ -82,12 +82,12 @@
 </article>
 <article id="content" class="col">
   <section data-route="game" id="liveScore" class="active">
-    <h1 data-bind="id">Adjust the score</h1>
+    <h1 data-bind="game_id">Adjust the score</h1>
     <section>
       <label data-bind="team_1">Team 1</label>
-      <input type="number" data-bind="team_1_score" name="team1" id="team1" min="1" max="100">
+      <input type="number" data-bind="team_1_score" id="team1" min="1" max="100" value="100">
       <label> versus </label>
-      <input type="number" data-bind="team_2_score" name="team2" id="team2" min"1"="" max="100">
+      <input type="number" data-bind="team_2_score" id="team2" min"1"="" max="100">
       <label data-bind="team_2">Team 2</label>
       <p>Has the game ended? </p>
       <input type="radio" name="ended" value="yes">

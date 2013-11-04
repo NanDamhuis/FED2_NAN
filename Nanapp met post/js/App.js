@@ -14,7 +14,7 @@ var SCOREAPP = SCOREAPP || {};
 
 //Hier heb ik alle utilities in staan
 
-SCOREAPP.extraDingen = {
+SCOREAPP.extraStuff = {
         spinner: {
             spinnerObject: document.getElementById("spinner"), 
             show: function () {
@@ -30,7 +30,7 @@ SCOREAPP.extraDingen = {
 
         console.log("WAZZUP");
 
-        SCOREAPP.extraDingen.reloadpage();
+        SCOREAPP.extraStuff.reloadpage();
 
 
         });
@@ -49,7 +49,7 @@ SCOREAPP.extraDingen = {
 		init: function(){
 			//start de router
 			SCOREAPP.router.init();
-      SCOREAPP.extraDingen.gesture();
+      SCOREAPP.extraStuff.gesture();
 		}
 };
 
@@ -59,9 +59,9 @@ SCOREAPP.extraDingen = {
 		init: function(){
 			routie({
 
-				'/game/': function() {
+				'/game/:id': function(id){
                     console.log("Losse wedstrijd");
-					SCOREAPP.page.gamePagina();
+					SCOREAPP.page.gamePagina(id);
 
 				},
 				'/schedule': function(){
@@ -82,30 +82,67 @@ SCOREAPP.extraDingen = {
 		},
 //deze functie geeft de class active mee aan de content zodat het zichtbaar wordt
 
-        change: function () {
+ //        change: function () {
+ //            var route = window.location.hash.slice(2),
+ //                sections = qwery('section[data-route]'),
+ //                section = qwery('[data-route=' + route + ']')[0];
+                
+ //            // Show active section, hide all other
+ //            if (section) {
+ //                for (var i=0; i < sections.length; i++){
+ //                    sections[i].classList.remove('active');
+
+
+ //                }
+
+ //                section.classList.add('active');
+
+ //                // var string = "My banana is huge lol ol ol ol ol ol";
+
+ //                // var substr = string.subtring(4, 6);
+
+ //                // console.log(substr);
+                
+
+
+ //            }
+
+ //            // Default route
+ //            if (!route) {
+ //                sections[0].classList.add('active');
+
+
+
+ //            }
+
+ //        }
+
+	// };
+
+       change: function () {
             var route = window.location.hash.slice(2),
-                sections = qwery('section[data-route]'),
-                section = qwery('[data-route=' + route + ']')[0];
+                sections = qwery('section[data-route]');
                 
             // Show active section, hide all other
             if (section) {
-                for (var i=0; i < sections.length; i++){
+                for (var i=0; i < sections.length; i++) {
                     sections[i].classList.remove('active');
                 }
-
-                section.classList.add('active');
-
             }
+
+            if (route.search("/") != -1) {
+              route = route.substring(0, route.search("/"));
+            }
+
+            var section = qwery('[data-route=' + route + ']')[0];
+            section.classList.add('active');
 
             // Default route
             if (!route) {
                 sections[0].classList.add('active');
-
             }
-
         }
-
-	};
+  };
 
 //In dit object zet ik alle informatie die nodig is om de score te posten
 SCOREAPP.post ={
@@ -129,7 +166,7 @@ postMethod: function(id, team1, team2, ended) {
 
             binnenhalen.setRequestHeader("Content-Type","application/json");
             binnenhalen.setRequestHeader("Accept","application/json");
-            binnenhalen.setRequestHeader("Authorization","bearer 74884efad3");
+            binnenhalen.setRequestHeader("Authorization","bearer 9c0e5646cc");
 
 
             binnenhalen.send(JSON.stringify(dataObject));
@@ -144,13 +181,10 @@ postMethod: function(id, team1, team2, ended) {
 //De paginaobjecten
 
     SCOREAPP.page = {
-
-        
-
-        gamePagina: function(){
+        gamePagina: function(id){
             console.log("Deze match");
-             SCOREAPP.extraDingen.spinner.show();
-             promise.get('https://api.leaguevine.com/v1/game_scores/?tournament_id=19389&access_token=c31a4263bb').then(function(error, text, xhr) {
+             SCOREAPP.extraStuff.spinner.show();
+             promise.get('https://api.leaguevine.com/v1/games/'+ id +'/?access_token=0bcd55f999').then(function(error, text, xhr) {
                 if (error) {
                   console.log('Error ' + xhr.status);
                   // Stop met de functie
@@ -160,14 +194,11 @@ postMethod: function(id, team1, team2, ended) {
                 var parsedObject = JSON.parse(text);
                 console.log(parsedObject);
                 
-                SCOREAPP.schedule = parsedObject.objects[0];
+                SCOREAPP.schedule = parsedObject.objects;
                 
-                SCOREAPP.extraDingen.spinner.hide();
+                SCOREAPP.extraStuff.spinner.hide();
 
-                Transparency.render(qwery('[data-route=game')[0],parsedObject.objects[0]);
-
-
-
+                Transparency.render(qwery('[data-route=game')[0],parsedObject.objects);
 
             });
 
@@ -176,10 +207,10 @@ postMethod: function(id, team1, team2, ended) {
 
         },
        
-
         page2: function() {
-              SCOREAPP.extraDingen.spinner.show();
-             promise.get('https://api.leaguevine.com/v1/games/?season_id=20167&tournament_id=19389').then(function(error, text, xhr) {
+      
+            SCOREAPP.extraStuff.spinner.show();
+            promise.get('https://api.leaguevine.com/v1/games/?tournament_id=19389&limit=100&access_token=eed184cbd8').then(function(error, text, xhr) {
                 if (error) {
                   console.log('Error ' + xhr.status);
                   // Stop met de functie
@@ -190,19 +221,29 @@ postMethod: function(id, team1, team2, ended) {
                 var parsedObject = JSON.parse(text);
                 
                 
-                SCOREAPP.schedule = parsedObject;
+                SCOREAPP.schedule = parsedObject.objects;
                 
-                SCOREAPP.extraDingen.spinner.hide();
+              
+                  var directives = {
+                      adjust: {
+                        href: function(params) {
+                          return "#/game/" + SCOREAPP.schedule[0].id;
+                      }
+                    }
+                  } 
 
-                Transparency.render(qwery('[data-route=schedule')[0],parsedObject);
-                 Fader.fadeInWithId("content", 3);
+                console.log(SCOREAPP.schedule[0].id);
+                SCOREAPP.extraStuff.spinner.hide();
+                Transparency.render(qwery('[data-route=schedule')[0],parsedObject, directives);
+
 
             });
 
             SCOREAPP.router.change();
+
         },
         page3: function() {
-            SCOREAPP.extraDingen.spinner.show();
+            SCOREAPP.extraStuff.spinner.show();
             promise.get('https://api.leaguevine.com/v1/pools/?tournament_id=19389&access_token=8ec88ebf01').then(function(error, text, xhr) {
                 if (error) {
                   console.log('Error ' + xhr.status);
@@ -213,12 +254,13 @@ postMethod: function(id, team1, team2, ended) {
                 var parsedObject = JSON.parse(text);
 
                 SCOREAPP.ranking = parsedObject.objects;
-                SCOREAPP.extraDingen.spinner.hide();
+                SCOREAPP.extraStuff.spinner.hide();
                 Transparency.render(qwery('[data-route=ranking')[0],parsedObject.objects);
 
             });
 
             SCOREAPP.router.change();
+
         }
     };
 
