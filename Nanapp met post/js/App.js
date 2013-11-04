@@ -1,5 +1,6 @@
-
 //Hier maak ik de namespace van de app aan, als deze nog niet bestaat wordt er een nieuw object aangemaakt.
+
+//#Jurian - App ziet er goed uit, alleen op enkele stukjes de code nog iets netter neerzetten.
 var SCOREAPP = SCOREAPP || {};
 
 (function(){
