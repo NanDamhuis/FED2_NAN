@@ -1,3 +1,5 @@
+
+//Hier maak ik de namespace van de app aan, als deze nog niet bestaat wordt er een nieuw object aangemaakt.
 var SCOREAPP = SCOREAPP || {};
 
 (function(){
@@ -28,7 +30,7 @@ SCOREAPP.extraStuff = {
       gesture:function(){
         $$("#refresh").doubleTap(function () {
 
-        console.log("WAZZUP");
+        console.log("reloading the matrix");
 
         SCOREAPP.extraStuff.reloadpage();
 
@@ -82,57 +84,21 @@ SCOREAPP.extraStuff = {
 		},
 //deze functie geeft de class active mee aan de content zodat het zichtbaar wordt
 
- //        change: function () {
- //            var route = window.location.hash.slice(2),
- //                sections = qwery('section[data-route]'),
- //                section = qwery('[data-route=' + route + ']')[0];
-                
- //            // Show active section, hide all other
- //            if (section) {
- //                for (var i=0; i < sections.length; i++){
- //                    sections[i].classList.remove('active');
 
-
- //                }
-
- //                section.classList.add('active');
-
- //                // var string = "My banana is huge lol ol ol ol ol ol";
-
- //                // var substr = string.subtring(4, 6);
-
- //                // console.log(substr);
-                
-
-
- //            }
-
- //            // Default route
- //            if (!route) {
- //                sections[0].classList.add('active');
-
-
-
- //            }
-
- //        }
-
-	// };
 
        change: function () {
             var route = window.location.hash.slice(2),
                 sections = qwery('section[data-route]');
-                
-            // Show active section, hide all other
-            if (section) {
-                for (var i=0; i < sections.length; i++) {
-                    sections[i].classList.remove('active');
-                }
-            }
+              
 
+            for (var i=0; i < sections.length; i++) {
+                sections[i].classList.remove('active');
+            }
+            
             if (route.search("/") != -1) {
               route = route.substring(0, route.search("/"));
             }
+
 
             var section = qwery('[data-route=' + route + ']')[0];
             section.classList.add('active');
@@ -147,30 +113,25 @@ SCOREAPP.extraStuff = {
 //In dit object zet ik alle informatie die nodig is om de score te posten
 SCOREAPP.post ={
 
-postMethod: function(id, team1, team2, ended) {
-             var binnenhalen = new XMLHttpRequest;
-             binnenhalen.open(POST,"https://api.leaguevine.com/v1/game_scores/",true);
+          postMethod: function(id, team1, team2, ended) {
+            //alert("do post");
+             var xhr = new XMLHttpRequest;
+             xhr.open("POST","https://api.leaguevine.com/v1/game_scores/",true);
         
 
              var dataObject = {
-
                     "game_id": id,
                     "team_1_score": team1,
                     "team_2_score": team2,
                     "final": ended
-
-            
-
-
              };
 
-            binnenhalen.setRequestHeader("Content-Type","application/json");
-            binnenhalen.setRequestHeader("Accept","application/json");
-            binnenhalen.setRequestHeader("Authorization","bearer 9c0e5646cc");
+            xhr.setRequestHeader("Content-Type","application/json");
+            xhr.setRequestHeader("Accept","application/json");
+            xhr.setRequestHeader("Authorization","bearer 9c0e5646cc");
 
 
-            binnenhalen.send(JSON.stringify(dataObject));
-   
+            xhr.send(JSON.stringify(dataObject));
             
         }
 
@@ -182,7 +143,6 @@ postMethod: function(id, team1, team2, ended) {
 
     SCOREAPP.page = {
         gamePagina: function(id){
-            console.log("Deze match");
              SCOREAPP.extraStuff.spinner.show();
              promise.get('https://api.leaguevine.com/v1/games/'+ id +'/?access_token=0bcd55f999').then(function(error, text, xhr) {
                 if (error) {
@@ -192,13 +152,20 @@ postMethod: function(id, team1, team2, ended) {
                 }
 
                 var parsedObject = JSON.parse(text);
-                console.log(parsedObject);
-                
-                SCOREAPP.schedule = parsedObject.objects;
-                
+     
+                SCOREAPP.game = parsedObject.objects;
+                           
                 SCOREAPP.extraStuff.spinner.hide();
 
-                Transparency.render(qwery('[data-route=game')[0],parsedObject.objects);
+                var directives = {
+                  postscorebutton: {
+                    onclick: function() {
+                      return "SCOREAPP.post.postMethod(" + this.id + ", " + this.team_1_score + ", " + this.team_2_score +", false)";
+                    }
+                  }
+                }
+
+                Transparency.render(qwery('[data-route=game]')[0],parsedObject, directives);
 
             });
 
@@ -223,7 +190,7 @@ postMethod: function(id, team1, team2, ended) {
                 
                 SCOREAPP.schedule = parsedObject.objects;
                 
-              
+              //met deze directives geef ik aan het adjusten van de page de juiste ID mee van de wedstrijd
                   var directives = {
                       adjust: {
                         href: function(params) {
@@ -232,7 +199,6 @@ postMethod: function(id, team1, team2, ended) {
                     }
                   } 
 
-                console.log(SCOREAPP.schedule[0].id);
                 SCOREAPP.extraStuff.spinner.hide();
                 Transparency.render(qwery('[data-route=schedule')[0],parsedObject, directives);
 
